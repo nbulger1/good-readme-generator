@@ -4,10 +4,21 @@ const inquirer = require('inquirer');
 const fs = require('fs'); 
 
 // Create an array of questions for user input
-const questions = [{
+const questions = [
+    {
         type: 'input',
         message: 'What is your name?',
         name: 'name',
+    },
+    {
+        type: 'input',
+        message: 'What is your Github URL?',
+        name: 'githubUrl',
+    },
+    {
+        type: 'input',
+        message: 'What is your preferred email address?',
+        name: 'email',
     },
     {
         type: 'input',
@@ -135,14 +146,8 @@ const questions = [{
     {
         type: 'rawlist',
         message: 'Which license?',
-        choices: ['MIT', 'GNU'],
+        choices: ['MIT', 'Apache', 'Boost', 'BSD', 'GNU GPL', 'Eclipse', 'ISC', 'ODbL'],
         name: 'license',
-    },
-    {
-        type: 'rawlist',
-        message: 'Would you like a tests section?',
-        choices: ['Yes', 'No'],
-        name: 'testsYesNo',
     },
 ];
 
@@ -182,6 +187,14 @@ inquirer
     - [Usage](#usage)
     - [Credits](#credits)
     - [License](#license)
+
+    ${response.license['MIT'] ? `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`: ''}
+    ${response.license['Apache'] ? `[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`: ''}
+    ${response.license['Boost'] ? `[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)`: ''}
+    ${response.license['GNU GPL'] ? `[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)`: ''}
+    ${response.license['Eclipse'] ? `[![License](https://img.shields.io/badge/License-EPL_1.0-red.svg)](https://opensource.org/licenses/EPL-1.0)`: ''}
+    ${response.license['ISC'] ? `[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)`: ''}
+    ${response.license['ODbL'] ? `[![License: ODbL](https://img.shields.io/badge/License-PDDL-brightgreen.svg)](https://opendatacommons.org/licenses/pddl/)`: ''}
     
     ## Installation
     
@@ -246,24 +259,15 @@ inquirer
     
     ## License
 
-    This project is licensed under the ${response.license['MIT'] ? `https://opensource.org/licenses/MIT` : ''} ${response.license['GNU'] ? `https://www.gnu.org/licenses/` : ''}.
+    This project is licensed under the ${response.license} License.
     
-    The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
-    
-    ---
-    
-    ## Badges
-    
-    ![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-    
-    Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
-    
-    ${response.testsYesNo['Yes'] ?  `
     ## Tests
     
     Go the extra mile and write tests for your application. Then provide examples on how to run them here.
-    `
-    : ''}
+
+    ## Questions
+
+    If you have any questions please feel free to contact: ${response.name} (${response.githubUrl}) at ${response.email}.
 
     `
 
@@ -275,128 +279,3 @@ inquirer
 
 // Function call to initialize app
 init();
-
-// inquirer
-//   .prompt(questions)
-//   .then((response) => {
-//     console.log(response)
-
-//     const readmeFile = 
-//     `# ${response.title}
-
-//     ## Description
-
-//     Motivation
-
-//     ${response.motivation}
-
-//     Problem Solved
-
-//     ${response.problemSolve}
-
-//     Lessons Learned
-
-//     ${response.lessonsLearned}
-    
-//     ## Table of Contents (Optional)
-    
-//     - [Installation](#installation)
-//     - [Usage](#usage)
-//     - [Credits](#credits)
-//     - [License](#license)
-    
-//     ## Installation
-    
-//     Step-by-Step Instructions:
-//     ${response.numberOfSteps[1] ? `
-//     1. ${response.stepOne}
-//     `
-//     : ''}
-
-//     ${response.numberOfSteps[2] ? `
-//     1. ${response.stepOne}
-//     2. ${response.stepTwo}
-//     `
-//     : ''}
-
-//     ${response.numberOfSteps[3] ? `
-//     1. ${response.stepOne}
-//     2. ${response.stepTwo}
-//     3. ${response.stepThree}
-//     `
-//     : ''}
-
-//     ${response.numberOfSteps[4] ? `
-//     1. ${response.stepOne}
-//     2. ${response.stepTwo}
-//     3. ${response.stepThree}
-//     4. ${response.stepFour}
-//     `
-//     : ''}
-
-//     ${response.numberOfSteps[5] ? `
-//     1. ${response.stepOne}
-//     2. ${response.stepTwo}
-//     3. ${response.stepThree}
-//     4. ${response.stepFour}
-//     5. ${response.stepFive}
-//     `
-//     : ''}
-
-//     ## Usage
-    
-//     Instructions for use:
-
-//     ${response.instructionsForUse}
-
-//     Examples:
-//     - ${response.exampleOne}
-//     - ${response.exampleTwo}
-//     - ${response.exampleThree}
-
-//     ![alt text](${response.screenshotFilePath})
-    
-//     ## Credits
-//     ${response.collabYesNo['Yes'] ? `
-//     Collaborators
-//     - ${response.collabNameOne} (${response.collabOneGit})
-//     - ${response.collabNameTwo} (${response.collabTwoGit})
-//     - ${response.collabNameThree} (${response.collabThreeGit})` 
-//     : ''}
-
-//     If you followed tutorials, include links to those here as well.
-    
-//     ## License
-
-//     This project is licensed under the 
-    
-//     The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
-    
-//     ---
-    
-//     🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
-    
-//     ## Badges
-    
-//     ![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-    
-//     Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
-    
-//     ## Features
-    
-//     If your project has a lot of features, list them here.
-    
-//     ## How to Contribute
-    
-//     If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer.
-    
-//     ## Tests
-    
-//     Go the extra mile and write tests for your application. Then provide examples on how to run them here.
-    
-//     `
-
-//     fs.writeFile(`${response.name.split(' ').join("")}-README.md`, readmeFile, function(err){
-//         //if there is an error then console log the error otherwise console log "Success!"
-//         err ? console.log(err) : console.log('Success!')
-//     })});
