@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 //require filesystem (fs) so we can read, write, append files
 const fs = require("fs");
 
-// Create an array of questions for user input
+// Array of questions for user input
 const questions = [
   {
     type: "input",
@@ -27,18 +27,9 @@ const questions = [
   },
   {
     type: "input",
-    message: "What was your motivation to complete this project?",
-    name: "motivation",
-  },
-  {
-    type: "input",
-    message: "What problem does your application solve?",
-    name: "problemSolve",
-  },
-  {
-    type: "input",
-    message: "What lessons did you learn while working on this application?",
-    name: "lessonsLearned",
+    message:
+      "Please provide a brief description of your project (motivation for completion, problems solved by the application, and lessons learned)",
+    name: "description",
   },
   {
     type: "rawlist",
@@ -100,6 +91,12 @@ const questions = [
     type: "input",
     message: "What is the file path to the screenshot of your application?",
     name: "screenshotFilePath",
+  },
+  {
+    type: "input",
+    message:
+      "Provide alternate text that describes the screenshot image of your application",
+    name: "alternateText",
   },
   {
     type: "rawlist",
@@ -177,173 +174,164 @@ const questions = [
   },
 ];
 
-// // TODO: Create a function to write README file
-// function writeToFile(data) {
+// Function to write README file
+function writeToFile(response) {
+  //function to print out the steps for installation based on user response to be called in the readmeFile variable
+  function printSteps(number) {
+    // Make an array of of the steps for installation
+    let stepsArray = [
+      response.stepOne,
+      response.stepTwo,
+      response.stepThree,
+      response.stepFour,
+      response.stepFive,
+    ];
 
-// };
+    // define stepIndex as the number fed to the printSteps function
+    let stepIndex = number - 1;
 
-// // TODO: Create a function to initialize app
-function init() {
-  inquirer.prompt(questions).then((response) => {
-    console.log(response.collabYesNo);
-    console.log(response.license);
+    //Filter the stepsArray on the index to return if stepIndex is less than or equal to the index of the array
+    let userSteps = stepsArray.filter((step, index) => {
+      return index <= stepIndex;
+    });
 
-    //possibly store the steps as an array of some kind so to loop?
-    function printSteps(number) {
-      let stepsArray = [
-        response.stepOne,
-        response.stepTwo,
-        response.stepThree,
-        response.stepFour,
-        response.stepFive,
-      ];
+    //Define a string to hold the result of the function
+    let resultString = "";
 
-      let stepIndex = number - 1;
-
-      let userSteps = stepsArray.filter((step, index) => {
-        return index <= stepIndex;
-      });
-      console.log(userSteps);
-
-      let resultString = "";
-
-      for (var i = 0; i < userSteps.length; i++) {
-        resultString = resultString.concat(`${i + 1}. ${userSteps[i]}\n`);
-      }
-
-      return resultString;
+    //For each i of the usersteps length create a template literal of the steps in the array with the number of the list equaling i+1 and the step as the index of the usersteps (filtered step array)
+    for (var i = 0; i < userSteps.length; i++) {
+      resultString = resultString.concat(`${i + 1}. ${userSteps[i]}\n`);
     }
 
-    let license;
-    //switch here for the the license
-    switch (response.license) {
-      case "MIT":
-        license =
-          "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
-        break;
-      case "Apache":
-        license =
-          "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)";
-        break;
-      case "Boost":
-        license =
-          "[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)";
-        break;
-      case "GNU GPL":
-        license =
-          "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)";
-        break;
-      case "Eclipse":
-        license =
-          "[![License](https://img.shields.io/badge/License-EPL_1.0-red.svg)](https://opensource.org/licenses/EPL-1.0)";
-        break;
-      case "ISC":
-        license =
-          "[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)";
-        break;
-      case "ODbL":
-        license =
-          "[![License: ODbL](https://img.shields.io/badge/License-PDDL-brightgreen.svg)](https://opendatacommons.org/licenses/pddl/)";
-        break;
-      default:
-        license = "No License Specified";
+    //return the resulting string
+    return resultString;
+  }
+
+  let license;
+  //switch statement for the the license to define which badge should be used in the README file
+  switch (response.license) {
+    case "MIT":
+      license =
+        "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
+      break;
+    case "Apache":
+      license =
+        "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)";
+      break;
+    case "Boost":
+      license =
+        "[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)";
+      break;
+    case "GNU GPL":
+      license =
+        "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)";
+      break;
+    case "Eclipse":
+      license =
+        "[![License](https://img.shields.io/badge/License-EPL_1.0-red.svg)](https://opensource.org/licenses/EPL-1.0)";
+      break;
+    case "ISC":
+      license =
+        "[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)";
+      break;
+    case "ODbL":
+      license =
+        "[![License: ODbL](https://img.shields.io/badge/License-PDDL-brightgreen.svg)](https://opendatacommons.org/licenses/pddl/)";
+      break;
+    default:
+      license = "No License Specified";
+  }
+
+  //Defining the constant readmeFile as a template literal using the user input
+  const readmeFile = `
+      
+  # ${response.title}
+  
+  ## Description
+  
+  ${response.description}
+          
+  ## Table of Contents
+          
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Tests](#tests)
+  - [Questions](#questions)
+  
+  ${license}
+          
+  ## Installation
+  
+  Step-by-Step Instructions:
+  
+  ${printSteps(response.numberOfSteps)}
+  
+  ## Usage
+          
+  Instructions for use:
+  
+  ${response.instructionsForUse}
+  
+  Examples:
+  - ${response.exampleOne}
+  - ${response.exampleTwo}
+  - ${response.exampleThree}
+  
+  ![${response.alternateText}](${response.screenshotFilePath})
+  
+  ## License
+  
+  This project is licensed under the ${response.license} License.
+          
+  ## Collaborating
+  
+  Collaborators
+  
+  ${
+    response.collabYesNo === "Yes"
+      ? `
+  - ${response.collabNameOne}: ${response.collabOneGit} 
+  - ${response.collabNameTwo}: ${response.collabTwoGit} 
+  - ${response.collabNameThree}: ${response.collabThreeGit}`
+      : "No Collaborators as of Now"
+  }
+  
+  If you would like to contribute to this project please follow the [Contributor Covenant](https://www.contributor-covenant.org/).
+  
+  Notes: ${response.notesToContributors}
+          
+  ## Tests
+          
+  Test #1: ${response.testOne}
+  - Example: ${response.testOneExample}
+  Test #2: ${response.testTwo}
+  - Example: ${response.testTwoExample}
+  
+  ## Questions
+  
+  If you have any questions please feel free to contact: ${response.name} (${
+    response.githubUrl
+  }) at ${response.email}.`;
+
+  //using the filesystem required at the top of index.js to write a file with the name of the user-README.md using the constant readmeFile
+  fs.writeFile(
+    `${response.name.split(" ").join("")}-README.md`,
+    readmeFile,
+    function (err) {
+      //if there is an error then console log the error otherwise console log "Success!"
+      err ? console.log(err) : console.log("Success!");
     }
-
-    const readmeFile = `
-    
-## ${response.title}
-
-## Description
-
-Motivation
-
-${response.motivation}
-
-Problem Solved
-
-${response.problemSolve}
-
-Lessons Learned
-
-${response.lessonsLearned}
-        
-## Table of Contents (Optional)
-        
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [Contributions](#contributions)
-- [License](#license)
-
-${license}
-        
-## Installation
-
-Step-by-Step Instructions:
-
-${printSteps(response.numberOfSteps)}
-
-## Usage
-        
-Instructions for use:
-
-${response.instructionsForUse}
-
-Examples:
-- ${response.exampleOne}
-- ${response.exampleTwo}
-- ${response.exampleThree}
-
-![alt text](${response.screenshotFilePath})
-        
-## Credits
-
-Collaborators
-
-${
-  response.collabYesNo === "Yes"
-    ? `
-- ${response.collabNameOne}: ${response.collabOneGit} 
-- ${response.collabNameTwo}: ${response.collabTwoGit} 
-- ${response.collabNameThree}: ${response.collabThreeGit}`
-    : "No Collaborators"
+  );
 }
 
-If you followed tutorials, include links to those here as well.
-
-## Contributions
-
-If you would like to contribute to this project please follow the [Contributor Covenant](https://www.contributor-covenant.org/).
-
-Notes: ${response.notesToContributors}
-        
-## License
-
-This project is licensed under the ${response.license} License.
-        
-## Tests
-        
-Test #1: ${response.testOne}
-- Example: ${response.testOneExample}
-Test #2: ${response.testTwo}
-- Example: ${response.testTwoExample}
-
-## Questions
-
-If you have any questions please feel free to contact: ${response.name} (${
-      response.githubUrl
-    }) at ${response.email}.`;
-
-    fs.writeFile(
-      `${response.name.split(" ").join("")}-README.md`,
-      readmeFile,
-      function (err) {
-        //if there is an error then console log the error otherwise console log "Success!"
-        err ? console.log(err) : console.log("Success!");
-      }
-    );
+// Function to initialize app that uses inquirer to prompt the question array and then use the response object to run the writeToFile function
+function init() {
+  inquirer.prompt(questions).then((response) => {
+    writeToFile(response);
   });
 }
 
-// Function call to initialize app
+// Call the init() function to initialize app
 init();
