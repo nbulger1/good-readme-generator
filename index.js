@@ -144,10 +144,36 @@ const questions = [
     when: (response) => response.collabYesNo === "Yes",
   },
   {
+    type: "input",
+    message:
+      "Any notes for those who would like to contribute to your project?",
+    name: "notesToContributors",
+  },
+  {
     type: "rawlist",
     message: "Which license?",
     choices: ["MIT", "Apache", "Boost", "GNU GPL", "Eclipse", "ISC", "ODbL"],
     name: "license",
+  },
+  {
+    type: "input",
+    message: "What's one test for your application?",
+    name: "testOne",
+  },
+  {
+    type: "input",
+    message: "What's an example for how to run the first test?",
+    name: "testOneExample",
+  },
+  {
+    type: "input",
+    message: "What's a second test for your application?",
+    name: "testTwo",
+  },
+  {
+    type: "input",
+    message: "What's an example for how to run the second test?",
+    name: "testTwoExample",
   },
 ];
 
@@ -182,11 +208,9 @@ function init() {
       let resultString = "";
 
       for (var i = 0; i < userSteps.length; i++) {
-        resultString = resultString.concat(
-          `${i.toString(i + 1)}. ${userSteps[i]}\n`
-        );
+        resultString = resultString.concat(`${i + 1}. ${userSteps[i]}\n`);
       }
-      console.log(resultString);
+
       return resultString;
     }
 
@@ -225,79 +249,90 @@ function init() {
         license = "No License Specified";
     }
 
-    const readmeFile = `# ${response.title}
+    const readmeFile = `
+    
+## ${response.title}
 
-        ## Description
+## Description
 
-        Motivation
+Motivation
 
-        ${response.motivation}
+${response.motivation}
 
-        Problem Solved
+Problem Solved
 
-        ${response.problemSolve}
+${response.problemSolve}
 
-        Lessons Learned
+Lessons Learned
 
-        ${response.lessonsLearned}
+${response.lessonsLearned}
         
-        ## Table of Contents (Optional)
+## Table of Contents (Optional)
         
-        - [Installation](#installation)
-        - [Usage](#usage)
-        - [Credits](#credits)
-        - [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [Contributions](#contributions)
+- [License](#license)
 
-        ${license}
+${license}
         
-        ## Installation
+## Installation
 
-        Step-by-Step Instructions:
+Step-by-Step Instructions:
 
-        ${printSteps(response.numberOfSteps)}
+${printSteps(response.numberOfSteps)}
 
-        ## Usage
+## Usage
         
-        Instructions for use:
+Instructions for use:
 
-        ${response.instructionsForUse}
+${response.instructionsForUse}
 
-        Examples:
-        - ${response.exampleOne}
-        - ${response.exampleTwo}
-        - ${response.exampleThree}
+Examples:
+- ${response.exampleOne}
+- ${response.exampleTwo}
+- ${response.exampleThree}
 
-        ![alt text](${response.screenshotFilePath})
+![alt text](${response.screenshotFilePath})
         
-        ## Credits
+## Credits
 
-        Collaborators
+Collaborators
 
-        ${
-          response.collabYesNo === "Yes"
-            ? `
-        - ${response.collabNameOne}: ${response.collabOneGit} 
-        - ${response.collabNameTwo}: ${response.collabTwoGit} 
-        - ${response.collabNameThree}: ${response.collabThreeGit}`
-            : "No Collaborators"
-        }
+${
+  response.collabYesNo === "Yes"
+    ? `
+- ${response.collabNameOne}: ${response.collabOneGit} 
+- ${response.collabNameTwo}: ${response.collabTwoGit} 
+- ${response.collabNameThree}: ${response.collabThreeGit}`
+    : "No Collaborators"
+}
 
-        If you followed tutorials, include links to those here as well.
+If you followed tutorials, include links to those here as well.
+
+## Contributions
+
+If you would like to contribute to this project please follow the [Contributor Covenant](https://www.contributor-covenant.org/).
+
+Notes: ${response.notesToContributors}
         
-        ## License
+## License
 
-        This project is licensed under the ${response.license} License.
+This project is licensed under the ${response.license} License.
         
-        ## Tests
+## Tests
         
-        Go the extra mile and write tests for your application. Then provide examples on how to run them here.
+Test #1: ${response.testOne}
+- Example: ${response.testOneExample}
+Test #2: ${response.testTwo}
+- Example: ${response.testTwoExample}
 
-        ## Questions
+## Questions
 
-        If you have any questions please feel free to contact: ${
-          response.name
-        } (${response.githubUrl}) at ${response.email}.
-        `;
+If you have any questions please feel free to contact: ${response.name} (${
+      response.githubUrl
+    }) at ${response.email}.`;
 
     fs.writeFile(
       `${response.name.split(" ").join("")}-README.md`,

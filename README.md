@@ -1,5 +1,21 @@
 ## Good README Generator - Week 9 Homework
 
+## Description
+
+High-quality README documents are essential for open source projects in Github as they explain what the app is for, how to use the app, how to report issues, how to install it, and how to make contributions to encourage other developers to contribute. A user can create a README file using a command-line application to allow them to devote more time to working on a project.
+
+I was tasked to create a command-line application that generates a professional README from a user's input by using the Inquirer package through node package manager.
+
+## Table of Contents
+
+- [User Story](#user-story)
+- [Acceptance Criteria](#acceptance-criteria)
+- [Question Bank](#questions)
+- [Write to File](#readme)
+- [License](#license)
+- [Screen Recording](#screen-recording)
+- [Link](#link)
+
 ## User Story
 
 ```md
@@ -28,4 +44,22 @@ WHEN I click on the links in the Table of Contents
 THEN I am taken to the corresponding section of the README
 ```
 
-## Table of Contents
+## Questions
+
+I started out the command-line interface by making an array of questions that I could call using the prompt method of the inquirer package. The question bank contains anything that may need user input to personalize the README to their application.
+
+## README
+
+To create the template for the README file I took the categories supplied in the acceptance criteria and generated a table of contents after the project "Description". From there, I consulted the https://coding-boot-camp.github.io/full-stack/github/professional-readme-guide for guidelines on the necessary information for each section of the README. Once I created the general content then I took the information from the question bank and plugged that into the appropriate spots in the framework.
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project is protected under the MIT License.
+
+## Screen Recording
+
+## Link
+
+Link to my deployed application:
