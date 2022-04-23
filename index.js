@@ -130,13 +130,13 @@ const questions = [
   },
   {
     type: "input",
-    message: "Name of your second collaborator?",
+    message: "Name of your third collaborator?",
     name: "collabNameThree",
     when: (response) => response.collabYesNo === "Yes",
   },
   {
     type: "input",
-    message: "What is your second collabs Github profile link?",
+    message: "What is your third collabs Github profile link?",
     name: "collabThreeGit",
     when: (response) => response.collabYesNo === "Yes",
   },
@@ -305,8 +305,11 @@ function writeToFile(response) {
   ## Tests
           
   Test #1: ${response.testOne}
+
   - Example: ${response.testOneExample}
+
   Test #2: ${response.testTwo}
+  
   - Example: ${response.testTwoExample}
   
   ## Questions
