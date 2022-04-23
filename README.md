@@ -60,6 +60,8 @@ This project is protected under the MIT License.
 
 ## Screen Recording
 
+https://youtu.be/A8NHED3j8S8
+
 ## Application Sample README
 
 The sample README is in the Github repository under the name "NatalieBulger-README.md"
